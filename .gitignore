@@ -1,0 +1,5 @@
+.idea
+/terraform/.terraform.lock.hcl
+/terraform/terraform.tfstate
+/terraform/.terraform/
+/ansible/inventory/hosts.ini

@@ -1,17 +1,8 @@
-provider "helm" {
-  kubernetes {
-    config_path = "~/.kube/config"
-  }
+module "monitoring" {
+  source           = "./modules/monitoring"
+  grafana_password = var.grafana_password
 }
 
-resource "helm_release" "prometheus" {
-  name = "prometheus"
-
-  repository = "https://prometheus-community.github.io/helm-charts"
-  chart      = "kube-prometheus-stack"
-
-  namespace        = "monitoring"
-  create_namespace = true
-
-  version = "45.5.0"
+variable "grafana_password" {
+  type = string
 }

@@ -107,7 +107,7 @@ resource "kubernetes_manifest" "configmap_cloudflared" {
     "apiVersion" = "v1"
     "data"       = {
       "config.yaml" = <<-EOT
-      tunnel: example-tunnel
+      tunnel: cloudflare-tunnel
       credentials-file: /etc/cloudflared/creds/credentials.json
       metrics: 0.0.0.0:2000
       no-autoupdate: true

@@ -9,3 +9,4 @@
 /k8s/terraform.tfstate.backup
 .envrc
 /k8s/modules/cloudflare/credentials.json
+/proxmox-cluster/terraform.tfstate.backup

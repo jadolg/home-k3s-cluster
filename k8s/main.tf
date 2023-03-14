@@ -6,3 +6,7 @@ module "monitoring" {
 variable "grafana_password" {
   type = string
 }
+
+module "cloudflare" {
+  source = "./modules/cloudflare"
+}

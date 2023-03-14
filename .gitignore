@@ -8,3 +8,4 @@
 /k8s/terraform.tfstate
 /k8s/terraform.tfstate.backup
 .envrc
+/k8s/modules/cloudflare/credentials.json

@@ -17,5 +17,5 @@ resource "local_file" "hosts_cfg" {
       master_node = module.ubuntu-node.servers_addresses[0]
     }
   )
-  filename = "../ansible/inventory/hosts.ini"
+  filename = "../install-k3s/inventory/hosts.ini"
 }

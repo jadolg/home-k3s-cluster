@@ -1,8 +1,8 @@
 .idea
-/terraform/.terraform.lock.hcl
-/terraform/terraform.tfstate
-/terraform/.terraform/
-/ansible/inventory/hosts.ini
+/proxmox-cluster/.terraform.lock.hcl
+/proxmox-cluster/terraform.tfstate
+/proxmox-cluster/.terraform/
+/install-k3s/inventory/hosts.ini
 /k8s/.terraform/
 /k8s/.terraform.lock.hcl
 /k8s/terraform.tfstate

@@ -8,7 +8,7 @@ terraform {
 }
 
 provider "proxmox" {
-  pm_api_url = "https://192.168.2.161:8006/api2/json"
+  pm_api_url = "https://192.168.88.5:8006/api2/json"
 }
 
 resource "proxmox_vm_qemu" "ubuntu-nodes" {
@@ -52,5 +52,5 @@ resource "proxmox_vm_qemu" "ubuntu-nodes" {
     ]
   }
 
-  ipconfig0 = "ip=${var.ip_prefix}${count.index+1}/24,gw=192.168.2.1"
+  ipconfig0 = "ip=${var.ip_prefix}${count.index+1}/24,gw=192.168.88.1"
 }

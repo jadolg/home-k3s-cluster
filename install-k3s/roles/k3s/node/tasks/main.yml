@@ -14,3 +14,8 @@
     daemon_reload: yes
     state: restarted
     enabled: yes
+
+- name: Install nfs-common
+  apt:
+    name: nfs-common
+    state: present

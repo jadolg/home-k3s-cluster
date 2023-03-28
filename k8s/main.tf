@@ -10,3 +10,9 @@ variable "grafana_password" {
 module "cloudflare" {
   source = "./modules/cloudflare"
 }
+
+module "nfs" {
+  source = "./modules/nfs-storage"
+  nfs_server = "192.168.88.20"
+  nfs_path = "/volume1/k3s"
+}

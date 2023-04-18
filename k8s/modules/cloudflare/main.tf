@@ -51,7 +51,7 @@ resource "kubernetes_manifest" "deployment_cloudflared" {
                 "/etc/cloudflared/config/config.yaml",
                 "run",
               ]
-              "image"         = "cloudflare/cloudflared:2022.3.0"
+              "image"         = "cloudflare/cloudflared:2023.4.1"
               "livenessProbe" = {
                 "failureThreshold" = 1
                 "httpGet"          = {

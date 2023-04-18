@@ -19,4 +19,12 @@ resource "helm_release" "prometheus" {
     name  = "grafana.adminPassword"
     value = var.grafana_password
   }
+  set {
+    name = "prometheus.prometheusSpec.serviceMonitorSelectorNilUsesHelmValues"
+    value = false
+  }
+  set {
+    name = "prometheus.prometheusSpec.podMonitorSelectorNilUsesHelmValues"
+    value = false
+  }
 }

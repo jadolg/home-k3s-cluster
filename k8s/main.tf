@@ -16,3 +16,13 @@ module "nfs" {
   nfs_server = "192.168.88.20"
   nfs_path = "/volume1/k3s"
 }
+
+variable "argo_password" {
+  type = string
+  description = "Password for the argo-cd admin user"
+}
+
+module "argocd" {
+  source = "./modules/argocd"
+  argo_password = bcrypt(var.argo_password)
+}

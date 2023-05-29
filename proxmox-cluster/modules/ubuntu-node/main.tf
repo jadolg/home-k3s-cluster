@@ -18,7 +18,7 @@ resource "proxmox_vm_qemu" "ubuntu-nodes" {
   target_node = "jotun"
   onboot = true
 
-  clone = "ubuntu-22.10-cloudimg"
+  clone = "ubuntu-23.04-cloudimg"
   clone_wait = 60
 
   cores = 4

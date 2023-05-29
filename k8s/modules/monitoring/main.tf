@@ -15,7 +15,7 @@ resource "helm_release" "prometheus" {
 
   version = "45.10.1"
 
-  set {
+  set_sensitive {
     name  = "grafana.adminPassword"
     value = var.grafana_password
   }

@@ -13,7 +13,7 @@ module "cloudflare" {
 
 module "nfs" {
   source = "./modules/nfs-storage"
-  nfs_server = "192.168.88.20"
+  nfs_server = "192.168.2.20"
   nfs_path = "/volume1/k3s"
 }
 

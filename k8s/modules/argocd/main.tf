@@ -1,10 +1,10 @@
 provider kubernetes {
-  config_path = "~/.kube/config"
+  config_path = var.kubeconfig
 }
 
 provider "helm" {
   kubernetes {
-    config_path = "~/.kube/config"
+    config_path = var.kubeconfig
   }
 }
 
@@ -24,5 +24,10 @@ resource "helm_release" "argocd" {
   set_sensitive {
     name  = "configs.secret.argocdServerAdminPassword"
     value = var.argo_password
+  }
+
+  set {
+    name  = "configs.params.server\\.insecure"
+    value = true
   }
 }

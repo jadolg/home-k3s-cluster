@@ -7,15 +7,11 @@ terraform {
   }
 }
 
-provider "proxmox" {
-  pm_api_url = "https://192.168.2.5:8006/api2/json"
-}
-
 resource "proxmox_vm_qemu" "ubuntu-nodes" {
   count = var.nodes
   name = "${var.name_prefix}${count.index+1}"
   desc = "ubuntu node"
-  target_node = "jotun"
+  target_node = "kate"
   onboot = true
 
   clone = "ubuntu-23.04-cloudimg"
@@ -29,7 +25,7 @@ resource "proxmox_vm_qemu" "ubuntu-nodes" {
 
   disk {
     type = "scsi"
-    storage = "data01"
+    storage = "local-lvm"
     size = "50G"
   }
 
@@ -48,7 +44,8 @@ resource "proxmox_vm_qemu" "ubuntu-nodes" {
     ignore_changes = [
       network,
       qemu_os,
-      sshkeys
+      sshkeys,
+      ciuser
     ]
   }
 

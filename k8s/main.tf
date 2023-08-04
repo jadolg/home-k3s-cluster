@@ -1,6 +1,7 @@
 module "monitoring" {
   source           = "./modules/monitoring"
   grafana_password = var.grafana_password
+  kubeconfig = var.kubeconfig
 }
 
 variable "grafana_password" {
@@ -9,12 +10,14 @@ variable "grafana_password" {
 
 module "cloudflare" {
   source = "./modules/cloudflare"
+  kubeconfig = var.kubeconfig
 }
 
 module "nfs" {
   source = "./modules/nfs-storage"
   nfs_server = "192.168.2.20"
   nfs_path = "/volume1/k3s"
+  kubeconfig = var.kubeconfig
 }
 
 variable "argo_password" {
@@ -25,4 +28,9 @@ variable "argo_password" {
 module "argocd" {
   source = "./modules/argocd"
   argo_password = bcrypt(var.argo_password)
+  kubeconfig = var.kubeconfig
+}
+
+variable "kubeconfig" {
+  type = string
 }

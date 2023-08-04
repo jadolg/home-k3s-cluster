@@ -2,8 +2,8 @@ module "ubuntu-node" {
   source = "./modules/ubuntu-node"
 
   name_prefix = "kube00"
-  ip_prefix   = "192.168.2.4"
-  nodes = 5
+  ip_prefix   = "192.168.2.5"
+  nodes = 3
 }
 
 

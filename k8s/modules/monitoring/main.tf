@@ -1,9 +1,3 @@
-provider "helm" {
-  kubernetes {
-    config_path = var.kubeconfig
-  }
-}
-
 resource "helm_release" "prometheus" {
   name = "prometheus"
 

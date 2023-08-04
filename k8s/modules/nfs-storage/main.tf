@@ -1,9 +1,3 @@
-provider "helm" {
-  kubernetes {
-    config_path = var.kubeconfig
-  }
-}
-
 resource "helm_release" "nfs" {
   name      = "nfs"
   namespace = "nfs"
@@ -28,5 +22,10 @@ resource "helm_release" "nfs" {
   set {
     name  = "storageClass.name"
     value = "nfs"
+  }
+
+  set {
+    name  = "storageClass.defaultClass"
+    value = true
   }
 }

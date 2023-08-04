@@ -5,7 +5,3 @@ variable "nfs_server" {
 variable "nfs_path" {
   type     = string
 }
-
-variable "kubeconfig" {
-  type = string
-}

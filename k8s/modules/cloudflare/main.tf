@@ -1,7 +1,3 @@
-provider kubernetes {
-  config_path = var.kubeconfig
-}
-
 resource "kubernetes_namespace" "cloudflare" {
   metadata {
     name = "cloudflare"

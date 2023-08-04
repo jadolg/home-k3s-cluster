@@ -6,51 +6,23 @@ resource "kubernetes_namespace" "argocd" {
 
 resource "helm_release" "argocd" {
   repository = "https://argoproj.github.io/argo-helm"
-  chart = "argo-cd"
-  name  = "argocd"
-  namespace = "argocd"
-  version = "5.42.1"
+  chart      = "argo-cd"
+  name       = "argocd"
+  namespace  = "argocd"
+  version    = "5.42.1"
+
+  values = [file("modules/argocd/values.yaml")]
 
   set_sensitive {
     name  = "configs.secret.argocdServerAdminPassword"
     value = var.argo_password
-  }
-
-  set {
-    name  = "configs.params.server\\.insecure"
-    value = true
-  }
-
-  set {
-    name  = "dex.enabled"
-    value = false
-  }
-
-  set {
-    name  = "controller.metrics.enabled"
-    value = true
-  }
-
-  set {
-    name  = "controller.metrics.serviceMonitor.enabled"
-    value = true
-  }
-
-  set {
-    name  = "redis.metrics.enabled"
-    value = true
-  }
-
-  set {
-    name  = "redis.metrics.serviceMonitor.enabled"
-    value = true
   }
 }
 
 terraform {
   required_providers {
     kubectl = {
-      source  = "gavinbunney/kubectl"
+      source = "gavinbunney/kubectl"
     }
   }
 }

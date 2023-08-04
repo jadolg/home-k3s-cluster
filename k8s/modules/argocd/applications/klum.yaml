@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: klum
+  namespace: argocd
+spec:
+  destination:
+    namespace: klum
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    helm:
+      parameters:
+        - name: context_name
+          value: k3s
+        - name: server
+          value: https://192.168.2.51:6443
+        - name: replicas
+          value: "2"
+      valueFiles:
+        - values.yaml
+    path: klum
+    repoURL: https://github.com/jadolg/helm-klum
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 2
+    syncOptions:
+      - CreateNamespace=true

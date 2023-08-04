@@ -1,13 +1,3 @@
-provider "helm" {
-  kubernetes {
-    config_path = var.kubeconfig
-  }
-}
-
-provider kubernetes {
-  config_path = var.kubeconfig
-}
-
 module "monitoring" {
   depends_on       = [module.nfs]
   source           = "./modules/monitoring"

@@ -31,3 +31,15 @@ resource "helm_release" "argocd" {
     value = true
   }
 }
+
+terraform {
+  required_providers {
+    kubectl = {
+      source  = "gavinbunney/kubectl"
+    }
+  }
+}
+
+resource "kubectl_manifest" "klum" {
+  yaml_body = file("modules/argocd/applications/klum.yaml")
+}

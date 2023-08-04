@@ -6,3 +6,7 @@ variable "argo_password" {
 variable "grafana_password" {
   type = string
 }
+
+variable "kubeconfig" {
+  type = string
+}

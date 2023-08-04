@@ -39,11 +39,3 @@ terraform {
     }
   }
 }
-
-resource "kubectl_manifest" "klum" {
-  yaml_body = file("modules/argocd/applications/klum.yaml")
-}
-
-resource "kubectl_manifest" "shadowtest" {
-  yaml_body = file("modules/argocd/applications/shadowtest.yaml")
-}

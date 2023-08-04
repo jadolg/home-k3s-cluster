@@ -15,10 +15,12 @@ module "nfs" {
 }
 
 module "argocd" {
+  depends_on    = [module.monitoring]
   source        = "./modules/argocd"
   argo_password = bcrypt(var.argo_password)
 }
 
-variable "kubeconfig" {
-  type = string
+module "applications" {
+  depends_on = [module.argocd]
+  source     = "./modules/applications"
 }

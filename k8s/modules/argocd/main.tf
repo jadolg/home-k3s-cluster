@@ -9,7 +9,7 @@ resource "helm_release" "argocd" {
   chart = "argo-cd"
   name  = "argocd"
   namespace = "argocd"
-
+  version = "5.42.1"
 
   set_sensitive {
     name  = "configs.secret.argocdServerAdminPassword"
@@ -28,6 +28,21 @@ resource "helm_release" "argocd" {
 
   set {
     name  = "controller.metrics.enabled"
+    value = true
+  }
+
+  set {
+    name  = "controller.metrics.serviceMonitor.enabled"
+    value = true
+  }
+
+  set {
+    name  = "redis.metrics.enabled"
+    value = true
+  }
+
+  set {
+    name  = "redis.metrics.serviceMonitor.enabled"
     value = true
   }
 }

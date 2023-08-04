@@ -116,6 +116,8 @@ resource "kubernetes_manifest" "configmap_cloudflared" {
         service: http://prometheus-grafana.monitoring.svc:80
       - hostname: shadowtest.r4bbit.net
         service: http://shadowtest.shadowtest.svc:8080
+      - hostname: argo.r4bbit.net
+        service: http://argocd-server.argocd.svc:80
       # This rule matches any traffic which didn't match a previous rule, and responds with HTTP 404.
       - service: http_status:404
 

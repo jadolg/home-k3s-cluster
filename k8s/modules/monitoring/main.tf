@@ -21,4 +21,8 @@ resource "helm_release" "prometheus" {
     name = "prometheus.prometheusSpec.podMonitorSelectorNilUsesHelmValues"
     value = false
   }
+  set {
+    name  = "prometheus.prometheusSpec.ruleSelectorNilUsesHelmValues"
+    value = false
+  }
 }

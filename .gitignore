@@ -1,12 +1,7 @@
 .idea
-/proxmox-cluster/.terraform.lock.hcl
-/proxmox-cluster/terraform.tfstate
-/proxmox-cluster/.terraform/
 /install-k3s/inventory/hosts.ini
-/k8s/.terraform/
-/k8s/.terraform.lock.hcl
-/k8s/terraform.tfstate
-/k8s/terraform.tfstate.backup
 .envrc
-/k8s/modules/cloudflare/credentials.json
-/proxmox-cluster/terraform.tfstate.backup
+.terraform
+terraform.tfstate*
+.terraform.lock.hcl
+.backup

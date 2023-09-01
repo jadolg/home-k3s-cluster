@@ -3,6 +3,7 @@ KUBECONFIG_PATH ?= ~/.kube/config-k3s
 deploy: create-machines install-kubernetes copy-kubeconfig install-software
 
 destroy:
+	cd k8s && terraform init && TF_VAR_kubeconfig=$(KUBECONFIG_PATH) terraform destroy
 	cd proxmox-cluster && terraform init && terraform destroy
 
 copy-kubeconfig:

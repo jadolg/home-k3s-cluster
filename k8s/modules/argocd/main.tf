@@ -12,11 +12,6 @@ resource "helm_release" "argocd" {
   version    = "5.42.1"
 
   values = [file("modules/argocd/values.yaml")]
-
-  set_sensitive {
-    name  = "configs.secret.argocdServerAdminPassword"
-    value = var.argo_password
-  }
 }
 
 terraform {

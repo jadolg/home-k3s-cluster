@@ -9,3 +9,7 @@ variable "cloudflare_account_id" {
 variable "cloudflare_token" {
   type = string
 }
+
+variable "cloudflare_zone" {
+  type    = string
+}

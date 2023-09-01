@@ -60,7 +60,7 @@ resource "cloudflare_tunnel_config" "k3s-home" {
     dynamic "ingress_rule" {
       for_each = local.ingresses
       content {
-        hostname = "${ingress_rule.key}.r4bbit.net"
+        hostname = "${ingress_rule.key}.${var.cloudflare_zone}"
         service  = ingress_rule.value
       }
     }
@@ -68,6 +68,24 @@ resource "cloudflare_tunnel_config" "k3s-home" {
     ingress_rule {
       service = "http_status:404"
     }
+  }
+}
+
+resource "cloudflare_access_application" "k3s-home" {
+  zone_id          = var.cloudflare_zone_id
+  name             = "Access application for k3s-home"
+  domain           = "*.${var.cloudflare_zone}"
+  session_duration = "1h"
+}
+
+resource "cloudflare_access_policy" "k3s-home" {
+  application_id = cloudflare_access_application.k3s-home.id
+  zone_id        = var.cloudflare_zone_id
+  name           = "Access policy for k3s-home"
+  precedence     = "1"
+  decision       = "allow"
+  include {
+    email_domain = ["akiel.dev"]
   }
 }
 

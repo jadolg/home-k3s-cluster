@@ -72,6 +72,7 @@ resource "cloudflare_tunnel_config" "k3s-home" {
 }
 
 resource "cloudflare_access_application" "k3s-home" {
+  count            = var.enable_security ? 1 : 0
   zone_id          = var.cloudflare_zone_id
   name             = "Access application for k3s-home"
   domain           = "*.${var.cloudflare_zone}"
@@ -79,7 +80,8 @@ resource "cloudflare_access_application" "k3s-home" {
 }
 
 resource "cloudflare_access_policy" "k3s-home" {
-  application_id = cloudflare_access_application.k3s-home.id
+  count            = var.enable_security ? 1 : 0
+  application_id = cloudflare_access_application.k3s-home[count.index].id
   zone_id        = var.cloudflare_zone_id
   name           = "Access policy for k3s-home"
   precedence     = "1"

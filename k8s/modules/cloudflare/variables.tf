@@ -11,5 +11,10 @@ variable "cloudflare_token" {
 }
 
 variable "cloudflare_zone" {
-  type    = string
+  type = string
+}
+
+variable "enable_security" {
+  type    = bool
+  default = false
 }

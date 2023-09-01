@@ -98,7 +98,7 @@ resource "kubernetes_manifest" "deployment_cloudflared" {
       "namespace" = "cloudflare"
     }
     "spec" = {
-      "replicas" = 1
+      "replicas" = 3
       "selector" = {
         "matchLabels" = {
           "app" = "cloudflared"

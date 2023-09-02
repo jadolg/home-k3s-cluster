@@ -5,6 +5,10 @@ terraform {
       source  = "gavinbunney/kubectl"
       version = ">= 1.7.0"
     }
+    sops = {
+      source  = "carlpett/sops"
+      version = "~> 0.5"
+    }
   }
 }
 
@@ -20,4 +24,8 @@ provider kubernetes {
 
 provider "kubectl" {
   config_path = var.kubeconfig
+}
+
+data "sops_file" "settings" {
+  source_file = "settings.sops.yaml"
 }

@@ -1,15 +1,15 @@
 module "monitoring" {
   depends_on       = [module.nfs]
   source           = "./modules/monitoring"
-  grafana_password = var.grafana_password
+  grafana_password = data.sops_file.settings.data["grafana.password"]
 }
 
 module "cloudflare" {
   source                = "./modules/cloudflare"
-  cloudflare_account_id = var.cloudflare_account_id
-  cloudflare_zone_id    = var.cloudflare_zone_id
-  cloudflare_zone       = var.cloudflare_zone
-  cloudflare_token      = var.cloudflare_token
+  cloudflare_account_id = data.sops_file.settings.data["cloudflare.account_id"]
+  cloudflare_zone_id    = data.sops_file.settings.data["cloudflare.zone_id"]
+  cloudflare_zone       = data.sops_file.settings.data["cloudflare.zone"]
+  cloudflare_token      = data.sops_file.settings.data["cloudflare.token"]
 }
 
 module "nfs" {

@@ -14,14 +14,6 @@ terraform {
   }
 }
 
-locals {
-  ingresses = {
-    "grafana"    = "http://prometheus-grafana.monitoring.svc:80"
-    "argo"       = "http://argocd-server.argocd.svc:80"
-    "shadowtest" = "http://shadowtest.shadowtest.svc:8080"
-  }
-}
-
 provider "cloudflare" {
   api_token = var.cloudflare_token
 }
@@ -43,7 +35,7 @@ resource "cloudflare_tunnel" "k3s-home" {
 }
 
 resource "cloudflare_record" "record" {
-  for_each        = local.ingresses
+  for_each        = var.ingresses
   zone_id         = var.cloudflare_zone_id
   name            = each.key
   value           = cloudflare_tunnel.k3s-home.cname
@@ -58,7 +50,7 @@ resource "cloudflare_tunnel_config" "k3s-home" {
   account_id = var.cloudflare_account_id
   config {
     dynamic "ingress_rule" {
-      for_each = local.ingresses
+      for_each = var.ingresses
       content {
         hostname = "${ingress_rule.key}.${var.cloudflare_zone}"
         service  = ingress_rule.value

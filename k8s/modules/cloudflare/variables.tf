@@ -18,3 +18,7 @@ variable "enable_security" {
   type    = bool
   default = false
 }
+
+variable "ingresses" {
+  type = map(string)
+}

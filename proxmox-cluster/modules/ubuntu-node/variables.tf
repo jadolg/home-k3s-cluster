@@ -9,3 +9,15 @@ variable "ip_prefix" {
 variable "nodes" {
   default = 5
 }
+
+variable "pm_api_token_id" {
+  type = string
+}
+
+variable "pm_api_token_secret" {
+  type = string
+}
+
+variable "pm_api_url" {
+  type = string
+}

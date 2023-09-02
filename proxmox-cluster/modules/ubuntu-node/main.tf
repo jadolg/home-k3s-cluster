@@ -1,12 +1,3 @@
-terraform {
-  required_providers {
-    proxmox = {
-      source  = "telmate/proxmox"
-      version = "2.9.13"
-    }
-  }
-}
-
 resource "proxmox_vm_qemu" "ubuntu-nodes" {
   count = var.nodes
   name = "${var.name_prefix}${count.index+1}"

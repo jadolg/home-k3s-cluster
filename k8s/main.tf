@@ -10,11 +10,25 @@ module "cloudflare" {
   cloudflare_zone_id    = data.sops_file.settings.data["cloudflare.zone_id"]
   cloudflare_zone       = data.sops_file.settings.data["cloudflare.zone"]
   cloudflare_token      = data.sops_file.settings.data["cloudflare.token"]
+  name                  = "cloudflare"
 
   ingresses = {
-    "grafana"    = "http://prometheus-grafana.monitoring.svc:80"
-    "argo"       = "http://argocd-server.argocd.svc:80"
-    "shadowtest" = "http://shadowtest.shadowtest.svc:8080"
+    "grafana" = {
+      "url"    = "http://prometheus-grafana.monitoring.svc:80"
+      "secure" = false
+    }
+    "argo" = {
+      "url"    = "http://argocd-server.argocd.svc:80"
+      "secure" = false
+    }
+    "shadowtest" = {
+      "url"    = "http://shadowtest.shadowtest.svc:8080"
+      "secure" = false
+    }
+    "prometheus" = {
+      "url"    = "http://prometheus-operated.monitoring.svc:9090"
+      "secure" = true
+    }
   }
 }
 

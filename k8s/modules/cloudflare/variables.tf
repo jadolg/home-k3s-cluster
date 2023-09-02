@@ -20,5 +20,13 @@ variable "enable_security" {
 }
 
 variable "ingresses" {
-  type = map(string)
+  type = map(map(any))
+}
+
+variable "name" {
+  default = "cloudflared"
+}
+
+variable "namespace" {
+  default = "cloudflare"
 }

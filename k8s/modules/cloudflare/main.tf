@@ -20,7 +20,7 @@ provider "cloudflare" {
 
 resource "kubernetes_namespace" "cloudflare" {
   metadata {
-    name = "cloudflare"
+    name = var.namespace
   }
 }
 
@@ -30,7 +30,7 @@ resource "random_id" "tunnel_secret" {
 
 resource "cloudflare_tunnel" "k3s-home" {
   account_id = var.cloudflare_account_id
-  name       = "k3s-home"
+  name       = var.name
   secret     = random_id.tunnel_secret.b64_std
 }
 
@@ -53,7 +53,7 @@ resource "cloudflare_tunnel_config" "k3s-home" {
       for_each = var.ingresses
       content {
         hostname = "${ingress_rule.key}.${var.cloudflare_zone}"
-        service  = ingress_rule.value
+        service  = ingress_rule.value["url"]
       }
     }
 
@@ -64,18 +64,18 @@ resource "cloudflare_tunnel_config" "k3s-home" {
 }
 
 resource "cloudflare_access_application" "k3s-home" {
-  count            = var.enable_security ? 1 : 0
+  for_each         = {for k, v in var.ingresses : k => v if v["secure"]}
   zone_id          = var.cloudflare_zone_id
-  name             = "Access application for k3s-home"
-  domain           = "*.${var.cloudflare_zone}"
+  name             = "Access application for ${var.name} - ${each.key}"
+  domain           = "${each.key}.${var.cloudflare_zone}"
   session_duration = "1h"
 }
 
 resource "cloudflare_access_policy" "k3s-home" {
-  count            = var.enable_security ? 1 : 0
-  application_id = cloudflare_access_application.k3s-home[count.index].id
+  for_each       = {for k, v in var.ingresses : k => v if v["secure"]}
+  application_id = cloudflare_access_application.k3s-home[each.key].id
   zone_id        = var.cloudflare_zone_id
-  name           = "Access policy for k3s-home"
+  name           = "Access policy for ${var.name}"
   precedence     = "1"
   decision       = "allow"
   include {
@@ -88,20 +88,20 @@ resource "kubernetes_manifest" "deployment_cloudflared" {
     "apiVersion" = "apps/v1"
     "kind"       = "Deployment"
     "metadata"   = {
-      "name"      = "cloudflared"
-      "namespace" = "cloudflare"
+      "name"      = var.name
+      "namespace" = var.namespace
     }
     "spec" = {
       "replicas" = 3
       "selector" = {
         "matchLabels" = {
-          "app" = "cloudflared"
+          "app" = var.name
         }
       }
       "template" = {
         "metadata" = {
           "labels" = {
-            "app" = "cloudflared"
+            "app" = var.name
           }
         }
         "spec" = {
@@ -126,7 +126,7 @@ resource "kubernetes_manifest" "deployment_cloudflared" {
                 "initialDelaySeconds" = 10
                 "periodSeconds"       = 10
               }
-              "name" = "cloudflared"
+              "name" = var.name
             },
           ]
         }

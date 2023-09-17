@@ -1,6 +1,6 @@
 s3:
-    secret_key: ENC[AES256_GCM,data:l3H6P6SrqGdI7NoqQE5W2F1RFSH8yaUUKn/EBfnjU5WSnovEmRClCOX6gr8=,iv:pK9+iXVIEZmpfsCP2loGwcYlJgGVP+jFqAAFZF+fydk=,tag:sYqogAKYTd1gHhUnj7WaJQ==,type:str]
-    access_key: ENC[AES256_GCM,data:htr0BjQWghaY9ZncCWYGYQ==,iv:O45En1X+omcQeBQHeE820CAHvvvOywbPn9R9qj6+jkE=,tag:xPGA+HWDLWzt4G6aeGJ8PQ==,type:str]
+    secret_key: ENC[AES256_GCM,data:GlIcA2S7FWpmNfSZU8LGmahJpxB+X4U6O7YvElHEiSU=,iv:PVoGCG4BWOxN23IODWwqBcNn7c0GTzoHZHxfIfFNdxc=,tag:S/0Xdj0tCePlfR8N3LlTJQ==,type:str]
+    access_key: ENC[AES256_GCM,data:YlKwjDZntXSrayiCX0cpzA==,iv:Ad/Hp1yqP523bshCr2LWQsg89LTVNkjnsuaAzGh7Oqo=,tag:RVONBTNb6dFnZlUecdT7Xw==,type:str]
 sops:
     kms: []
     gcp_kms: []
@@ -16,8 +16,8 @@ sops:
             SkdUY3hlY1BvVis0eTZTcEJQTVd6ODgKqxIz0Ek8hc6mgvFNcUNi7rLD+pv9nWB0
             IkB5UqTLulify8O3dAl7yxl91O6CUQZk9Kl1D0vGXQT9ga/THM58aA==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2023-09-17T10:13:00Z"
-    mac: ENC[AES256_GCM,data:rfctj8CUfb9S6p9CVCWex8n4yAzMWwHWQGJcJj58zGsVnbN9nyCLTVAxMiCQOUqUCs/7k912UcVZdpvARz7vnWvvFjwbjCEG8DJFLGeKz1mF3O4GI0+EMiB1a8a9ivQCX4oWdTZKS9IOz+qMyfZ/ctha8W2NJf0iOa6or4EbYio=,iv:U3eydgYnzn9lKCkKQlsgfDonOz2eTTUw3VqbwFtBKuA=,tag:V+mFfcwhxkS96y4NL5PBTg==,type:str]
+    lastmodified: "2023-09-17T10:33:34Z"
+    mac: ENC[AES256_GCM,data:zN0T/W4L2XyDUSDcm+lkalEThdJYe67yf1/CHZ2lXyN1rFyBbBxm8GQKkG+cikHtXiF7yvoI7Ml8CJ/qW4gpF2nEJE6VSTp82w+nqj/dn7aEbc7S8CU09ydpKf2oHJexXqNeIV0cJo6AcXInM/Q4LGnZPwtt6CAqy/Cf4MSkhiY=,iv:4EuamtQ1FtsxvfY/zE3bE8y4YhxZHZtN6QPecg578xg=,tag:jhML2pLAYTw7LVGWaHqwtw==,type:str]
     pgp: []
     unencrypted_suffix: _unencrypted
-    version: 3.7.3
+    version: 3.8.0

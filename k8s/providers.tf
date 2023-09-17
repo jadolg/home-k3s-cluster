@@ -10,6 +10,16 @@ terraform {
       version = "~> 0.5"
     }
   }
+  backend "s3" {
+    bucket = "k3s-home-cluster-k8s"
+    key = "terraform.tfstate"
+    endpoint = "https://storage.shadowmere.akiel.dev/"
+    region = "main"
+    skip_credentials_validation = true
+    skip_metadata_api_check = true
+    skip_region_validation = true
+    force_path_style = true
+  }
 }
 
 provider "helm" {

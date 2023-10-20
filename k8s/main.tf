@@ -47,3 +47,10 @@ module "applications" {
   depends_on = [module.argocd]
   source     = "./modules/applications"
 }
+
+module "cert-manager" {
+  source           = "./modules/certmanager"
+  cloudflare_token = data.sops_file.settings.data["cloudflare.token"]
+  email            = data.sops_file.settings.data["cloudflare.email"]
+  cloudflare_zone  = data.sops_file.settings.data["cloudflare.zone"]
+}

@@ -9,7 +9,7 @@ terraform {
 resource kubernetes_secret "cloudflare" {
   metadata {
     name      = "cloudflare-key"
-    namespace = "certmanager"
+    namespace = "cert-manager"
   }
   type = "Opaque"
   data = {
@@ -17,11 +17,23 @@ resource kubernetes_secret "cloudflare" {
   }
 }
 
-resource "kubectl_manifest" "certmanager" {
+resource "kubernetes_namespace" "cert-manager" {
+  metadata {
+    name = "cert-manager"
+  }
+}
+
+resource "kubectl_manifest" "cert-manager" {
+  depends_on = [kubernetes_namespace.cert-manager]
   yaml_body = file("modules/certmanager/certmanager.yaml")
 }
 
+resource "kubectl_manifest" "cert-manager-trust" {
+    depends_on = [kubectl_manifest.cert-manager]
+  yaml_body = file("modules/certmanager/cert-manager-trust.yaml")
+}
+
 resource "kubectl_manifest" "clusterissuer" {
-  depends_on = [kubectl_manifest.certmanager, kubernetes_secret.cloudflare]
+  depends_on = [kubectl_manifest.cert-manager, kubernetes_secret.cloudflare]
   yaml_body  = templatefile("modules/certmanager/clusterissuer.yaml", {email= var.email, zone= var.cloudflare_zone})
 }

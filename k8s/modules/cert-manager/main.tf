@@ -24,17 +24,30 @@ resource kubernetes_secret "cloudflare" {
   }
 }
 
-resource "kubectl_manifest" "cert-manager" {
+resource "helm_release" "cert-manager" {
   depends_on = [kubernetes_namespace.cert-manager]
-  yaml_body  = file("modules/cert-manager/cert-manager.yaml")
+  repository = "https://charts.jetstack.io"
+  chart      = "cert-manager"
+  name       = "cert-manager"
+  namespace  = "cert-manager"
+  version    = "v1.13.1"
+
+  set {
+    name  = "installCRDs"
+    value = true
+  }
+
+  wait = true
 }
 
 resource "kubectl_manifest" "clusterissuer" {
-  depends_on = [kubectl_manifest.cert-manager, kubernetes_secret.cloudflare]
-  yaml_body  = templatefile("modules/cert-manager/clusterissuer.yaml", { email = var.email, zone = var.cloudflare_zone })
+  depends_on = [helm_release.cert-manager, kubernetes_secret.cloudflare]
+  yaml_body  = templatefile("modules/cert-manager/clusterissuer.yaml", {
+    email = var.email, zone = var.cloudflare_zone
+  })
 }
 
 resource "kubectl_manifest" "selfsigned" {
-  depends_on = [kubectl_manifest.cert-manager, kubernetes_secret.cloudflare]
+  depends_on = [helm_release.cert-manager, kubernetes_secret.cloudflare]
   yaml_body  = file("modules/cert-manager/clusterissuer-selfsigned.yaml")
 }

@@ -1,3 +1,4 @@
 variable "kubeconfig" {
-  type = string
+  type    = string
+  default = "~/.kube/config-k3s"
 }

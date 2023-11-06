@@ -33,3 +33,8 @@ resource "kubectl_manifest" "clusterissuer" {
   depends_on = [kubectl_manifest.cert-manager, kubernetes_secret.cloudflare]
   yaml_body  = templatefile("modules/cert-manager/clusterissuer.yaml", { email = var.email, zone = var.cloudflare_zone })
 }
+
+resource "kubectl_manifest" "selfsigned" {
+  depends_on = [kubectl_manifest.cert-manager, kubernetes_secret.cloudflare]
+  yaml_body  = file("modules/cert-manager/clusterissuer-selfsigned.yaml")
+}

@@ -38,6 +38,11 @@ module "nfs" {
   nfs_path   = "/volume1/k3s"
 }
 
+module "linkerd" {
+  depends_on = [module.monitoring]
+  source     = "./modules/linkerd"
+}
+
 module "argocd" {
   depends_on = [module.monitoring]
   source     = "./modules/argocd"

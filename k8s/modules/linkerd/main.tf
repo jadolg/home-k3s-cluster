@@ -107,3 +107,9 @@ resource "helm_release" "linkerd-viz" {
     value = "grafana.grafana-linkerd.svc:3000"
   }
 }
+
+
+resource "kubectl_manifest" "grafana-access" {
+  depends_on = [helm_release.grafana-linkerd, helm_release.linkerd-control-plane]
+  yaml_body = file("modules/linkerd/grafana-access.yaml")
+}

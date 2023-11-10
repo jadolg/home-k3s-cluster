@@ -9,6 +9,8 @@ resource "helm_release" "prometheus" {
 
   version = "45.10.1"
 
+  values = [file("modules/monitoring/values.yaml")]
+
   set_sensitive {
     name  = "grafana.adminPassword"
     value = var.grafana_password
@@ -25,4 +27,5 @@ resource "helm_release" "prometheus" {
     name  = "prometheus.prometheusSpec.ruleSelectorNilUsesHelmValues"
     value = false
   }
+
 }

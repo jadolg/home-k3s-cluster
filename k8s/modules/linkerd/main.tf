@@ -31,7 +31,7 @@ resource "kubectl_manifest" "linkerd-cluster-issuer" {
 
 resource "kubectl_manifest" "intermediate-cert" {
   depends_on = [kubectl_manifest.linkerd-cluster-issuer]
-  yaml_body = file("modules/linkerd/intermediate-cert.yaml")
+  yaml_body  = file("modules/linkerd/intermediate-cert.yaml")
 }
 
 data "kubernetes_secret" "linkerd-identity-issuer" {
@@ -60,5 +60,50 @@ resource "helm_release" "linkerd-control-plane" {
   set {
     name  = "identity.issuer.scheme"
     value = "kubernetes.io/tls"
+  }
+}
+
+resource "kubernetes_namespace" "grafana-linkerd" {
+  metadata {
+    name = "grafana-linkerd"
+  }
+}
+
+data "http" "grafana-values" {
+  url = "https://raw.githubusercontent.com/linkerd/linkerd2/main/grafana/values.yaml"
+}
+
+resource "helm_release" "grafana-linkerd" {
+  repository = "https://grafana.github.io/helm-charts"
+  chart      = "grafana"
+  name       = "grafana"
+  namespace  = "grafana-linkerd"
+  version    = "7.0.3"
+
+  values = [data.http.grafana-values.response_body]
+}
+
+resource "kubernetes_namespace" "linkerd-viz" {
+  metadata {
+    name = "linkerd-viz"
+  }
+}
+
+resource "helm_release" "linkerd-viz" {
+  depends_on = [kubernetes_namespace.linkerd-viz, helm_release.linkerd-control-plane]
+  repository = "https://helm.linkerd.io/stable"
+  chart      = "linkerd-viz"
+  name       = "linkerd-viz"
+  namespace  = "linkerd-viz"
+  version    = "30.12.4"
+
+  set {
+    name  = "dashboard.enforcedHostRegexp"
+    value = ".*"
+  }
+
+  set {
+    name  = "grafana.url"
+    value = "grafana.grafana-linkerd.svc:3000"
   }
 }

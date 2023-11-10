@@ -1,11 +1,19 @@
+resource "kubernetes_namespace" "monitoring" {
+  metadata {
+    name        = "monitoring"
+    annotations = {
+      "linkerd.io/inject" = "enabled"
+    }
+  }
+}
+
 resource "helm_release" "prometheus" {
   name = "prometheus"
 
   repository = "https://prometheus-community.github.io/helm-charts"
   chart      = "kube-prometheus-stack"
 
-  namespace        = "monitoring"
-  create_namespace = true
+  namespace = "monitoring"
 
   version = "45.10.1"
 
@@ -16,11 +24,11 @@ resource "helm_release" "prometheus" {
     value = var.grafana_password
   }
   set {
-    name = "prometheus.prometheusSpec.serviceMonitorSelectorNilUsesHelmValues"
+    name  = "prometheus.prometheusSpec.serviceMonitorSelectorNilUsesHelmValues"
     value = false
   }
   set {
-    name = "prometheus.prometheusSpec.podMonitorSelectorNilUsesHelmValues"
+    name  = "prometheus.prometheusSpec.podMonitorSelectorNilUsesHelmValues"
     value = false
   }
   set {

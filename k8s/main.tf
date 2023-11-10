@@ -29,6 +29,10 @@ module "cloudflare" {
       "url"    = "http://prometheus-operated.monitoring.svc:9090"
       "secure" = true
     }
+    "linkerd-viz" = {
+      "url"    = "http://web.linkerd-viz.svc:8084"
+      "secure" = true
+    }
   }
 }
 

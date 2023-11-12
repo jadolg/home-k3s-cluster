@@ -119,7 +119,7 @@ resource "kubernetes_manifest" "deployment_cloudflared" {
                 "--token",
                 cloudflare_tunnel.k3s-home.tunnel_token,
               ]
-              "image"         = "cloudflare/cloudflared:2023.8.2"
+              "image"         = "cloudflare/cloudflared:2023.10.0"
               "livenessProbe" = {
                 "failureThreshold" = 1
                 "httpGet"          = {

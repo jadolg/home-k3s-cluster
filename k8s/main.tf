@@ -1,5 +1,5 @@
 module "monitoring" {
-  depends_on       = [module.nfs]
+  depends_on       = [module.nfs, module.linkerd]
   source           = "./modules/monitoring"
   grafana_password = data.sops_file.settings.data["grafana.password"]
 }
@@ -42,13 +42,8 @@ module "nfs" {
   nfs_path   = "/volume1/k3s"
 }
 
-module "linkerd" {
-  depends_on = [module.monitoring]
-  source     = "./modules/linkerd"
-}
-
 module "argocd" {
-  depends_on = [module.monitoring]
+  depends_on = [module.monitoring, module.linkerd]
   source     = "./modules/argocd"
 }
 
@@ -57,9 +52,19 @@ module "applications" {
   source     = "./modules/applications"
 }
 
+module "linkerd" {
+  depends_on = [module.cert-manager]
+  source     = "./modules/linkerd"
+}
+
 module "cert-manager" {
   source           = "./modules/cert-manager"
   cloudflare_token = data.sops_file.settings.data["cloudflare.token"]
   email            = data.sops_file.settings.data["cloudflare.email"]
   cloudflare_zone  = data.sops_file.settings.data["cloudflare.zone"]
+}
+
+module "loki" {
+  depends_on = [module.nfs, module.linkerd]
+  source     = "./modules/loki"
 }

@@ -10,6 +10,7 @@ module "cloudflare" {
   cloudflare_zone_id    = data.sops_file.settings.data["cloudflare.zone_id"]
   cloudflare_zone       = data.sops_file.settings.data["cloudflare.zone"]
   cloudflare_token      = data.sops_file.settings.data["cloudflare.token"]
+  cloudflare_email      = data.sops_file.settings.data["cloudflare.email"]
   name                  = "cloudflare"
 
   ingresses = {

@@ -82,7 +82,7 @@ resource "cloudflare_access_policy" "k3s-home" {
   precedence     = "1"
   decision       = "allow"
   include {
-    email_domain = ["akiel.dev"]
+    email = [ var.cloudflare_email ]
   }
 }
 

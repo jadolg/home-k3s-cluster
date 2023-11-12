@@ -14,6 +14,10 @@ variable "cloudflare_zone" {
   type = string
 }
 
+variable "cloudflare_email" {
+  type = string
+}
+
 variable "enable_security" {
   type    = bool
   default = false

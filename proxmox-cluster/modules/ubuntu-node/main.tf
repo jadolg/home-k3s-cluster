@@ -8,9 +8,9 @@ resource "proxmox_vm_qemu" "ubuntu-nodes" {
   clone = "ubuntu-23.04-cloudimg"
   clone_wait = 60
 
-  cores = 4
-  sockets = 1
-  memory = 8192
+  cores = 3
+  sockets = 2
+  memory = 12288
 
   scsihw = "virtio-scsi-pci"
 

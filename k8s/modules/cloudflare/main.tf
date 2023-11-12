@@ -20,7 +20,10 @@ provider "cloudflare" {
 
 resource "kubernetes_namespace" "cloudflare" {
   metadata {
-    name = var.namespace
+    name        = var.namespace
+    annotations = {
+      "linkerd.io/inject" = "enabled"
+    }
   }
 }
 

@@ -1,6 +1,9 @@
 resource "kubernetes_namespace" "argocd" {
   metadata {
-    name = "argocd"
+    name        = "argocd"
+    annotations = {
+      "linkerd.io/inject" = "enabled"
+    }
   }
 }
 

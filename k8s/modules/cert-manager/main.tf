@@ -12,7 +12,7 @@ resource "kubernetes_namespace" "cert-manager" {
   }
 }
 
-resource kubernetes_secret "cloudflare" {
+resource "kubernetes_secret" "cloudflare" {
   depends_on = [kubernetes_namespace.cert-manager]
   metadata {
     name      = "cloudflare-key"
@@ -37,7 +37,7 @@ resource "helm_release" "cert-manager" {
     value = true
   }
 
-  wait = true
+  wait_for_jobs = true
 }
 
 resource "kubectl_manifest" "clusterissuer" {
@@ -45,9 +45,11 @@ resource "kubectl_manifest" "clusterissuer" {
   yaml_body  = templatefile("modules/cert-manager/clusterissuer.yaml", {
     email = var.email, zone = var.cloudflare_zone
   })
+  wait_for_rollout = true
 }
 
 resource "kubectl_manifest" "selfsigned" {
   depends_on = [helm_release.cert-manager, kubernetes_secret.cloudflare]
   yaml_body  = file("modules/cert-manager/clusterissuer-selfsigned.yaml")
+  wait_for_rollout = true
 }

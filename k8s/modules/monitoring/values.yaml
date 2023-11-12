@@ -4,7 +4,12 @@ prometheus:
       volumeClaimTemplate:
         spec:
           storageClassName: nfs
-          accessModes: ["ReadWriteOnce"]
+          accessModes: [ "ReadWriteOnce" ]
           resources:
             requests:
               storage: 10Gi
+grafana:
+  additionalDataSources:
+    - name: loki
+      type: loki
+      url: http://loki-gateway.loki.svc

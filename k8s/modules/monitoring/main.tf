@@ -1,9 +1,6 @@
 resource "kubernetes_namespace" "monitoring" {
   metadata {
     name        = "monitoring"
-    annotations = {
-      "linkerd.io/inject" = "enabled"
-    }
   }
 }
 
@@ -15,7 +12,7 @@ resource "helm_release" "prometheus" {
 
   namespace = "monitoring"
 
-  version = "45.10.1"
+  version = "52.1.0"
 
   values = [file("modules/monitoring/values.yaml")]
 

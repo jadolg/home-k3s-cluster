@@ -30,8 +30,9 @@ resource "kubectl_manifest" "linkerd-cluster-issuer" {
 }
 
 resource "kubectl_manifest" "intermediate-cert" {
-  depends_on = [kubectl_manifest.linkerd-cluster-issuer]
-  yaml_body  = file("modules/linkerd/intermediate-cert.yaml")
+  depends_on       = [kubectl_manifest.linkerd-cluster-issuer]
+  yaml_body        = file("modules/linkerd/intermediate-cert.yaml")
+  wait_for_rollout = true
 }
 
 data "kubernetes_secret" "linkerd-identity-issuer" {
@@ -43,7 +44,7 @@ data "kubernetes_secret" "linkerd-identity-issuer" {
 }
 
 resource "helm_release" "linkerd-control-plane" {
-  depends_on = [kubectl_manifest.intermediate-cert, helm_release.linkerd-crds]
+  depends_on = [kubectl_manifest.linkerd-cluster-issuer, helm_release.linkerd-crds]
   repository = "https://helm.linkerd.io/stable"
   chart      = "linkerd-control-plane"
   name       = "linkerd-control-plane"
@@ -108,8 +109,7 @@ resource "helm_release" "linkerd-viz" {
   }
 }
 
-
 resource "kubectl_manifest" "grafana-access" {
   depends_on = [helm_release.grafana-linkerd, helm_release.linkerd-control-plane]
-  yaml_body = file("modules/linkerd/grafana-access.yaml")
+  yaml_body  = file("modules/linkerd/grafana-access.yaml")
 }

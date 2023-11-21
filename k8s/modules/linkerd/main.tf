@@ -65,8 +65,12 @@ resource "helm_release" "linkerd-control-plane" {
 }
 
 resource "kubernetes_namespace" "grafana-linkerd" {
+  depends_on = [helm_release.linkerd-control-plane]
   metadata {
-    name = "grafana-linkerd"
+    name        = "grafana-linkerd"
+    annotations = {
+      "linkerd.io/inject" = "enabled"
+    }
   }
 }
 

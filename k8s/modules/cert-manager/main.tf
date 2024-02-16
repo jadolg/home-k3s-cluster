@@ -48,8 +48,13 @@ resource "kubectl_manifest" "clusterissuer" {
   wait_for_rollout = true
 }
 
-resource "kubectl_manifest" "selfsigned" {
-  depends_on = [helm_release.cert-manager, kubernetes_secret.cloudflare]
-  yaml_body  = file("modules/cert-manager/clusterissuer-selfsigned.yaml")
-  wait_for_rollout = true
+resource "helm_release" "trust-manager" {
+  depends_on = [kubernetes_namespace.cert-manager]
+  repository = "https://charts.jetstack.io"
+  chart      = "trust-manager"
+  name       = "trust-manager"
+  namespace  = "cert-manager"
+  version    = "v0.8.0"
+
+  wait_for_jobs = true
 }
